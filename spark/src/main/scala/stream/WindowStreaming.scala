@@ -24,7 +24,8 @@ object WindowStreaming {
 
 
 
-    val ssc = new StreamingContext(conf, Seconds(1))
+    val ssc = new StreamingContext(conf, Seconds(2))
+    ssc.checkpoint("E:\\test\\d")
 
     //kafka的配置参数
     val kafkaParams = Map[String, Object](
@@ -36,7 +37,7 @@ object WindowStreaming {
       "enable.auto.commit" -> (false: java.lang.Boolean)
     )
     //设置一个主题
-    val topic = "test".split(" ")
+    val topic = "IPLogs".split(" ")
 
     val kfStream: InputDStream[ConsumerRecord[String, String]] = KafkaUtils.createDirectStream(ssc,
       //位置策略,如果说spark程序和kafka服务不在一个节点上，建议使用PreferConsistent
@@ -51,10 +52,10 @@ object WindowStreaming {
     val windowStream: DStream[String] = kfStream.map(_.value()).window(Seconds(10),Seconds(3))
     windowStream.print()
 
+
 //    kfStream.print()
 
     ssc.start()
     ssc.awaitTermination()
   }
-
 }

@@ -49,7 +49,7 @@ object IPLocation {
     //sc
     val sc = new SparkContext(conf)
     //读取字典文件
-    val ipSource = sc.textFile("C:\\Users\\thinkpad\\Desktop\\查找ip区间\\ip.txt")
+    val ipSource: RDD[String] = sc.textFile("C:\\Users\\thinkpad\\Desktop\\查找ip区间\\ip.txt")
     //处理字典文件
     val ipdictRDD: RDD[(Long, Long, String)] = ipSource.map(_.split("\\|")).filter(_.length >= 7)
       .map(arr => {
