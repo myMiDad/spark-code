@@ -14,6 +14,14 @@ import java.io.IOException;
  */
 public class DriverOne {
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+
+
+
+            }
+        };
         //conf
         Configuration conf = new Configuration();
         //job

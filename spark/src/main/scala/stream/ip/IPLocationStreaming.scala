@@ -58,16 +58,16 @@ object IPLocationStreaming {
     val ssc = new StreamingContext(conf, Seconds(2))
 
     //读取字典文件
-    val ip_dict: RDD[String] = ssc.sparkContext.textFile("C:\\Users\\thinkpad\\Desktop\\查找ip区间\\ip.txt")
+    val ip_dict: RDD[String] = ssc.sparkContext.textFile("E:\\test\\spark\\查找ip区间\\ip.txt")
     //清洗
     val ip_arr: Array[(Long, Long, String)] = ip_dict.map(_.split("\\|", -1)).filter(_.length >= 7).map(arr => (arr(2).toLong, arr(3).toLong, arr(6))).collect()
     //广播变量
     val ip_Bro: Broadcast[Array[(Long, Long, String)]] = ssc.sparkContext.broadcast(ip_arr)
 
-    val topic = "test0722".split(" ")
+    val topic = "IPLogs".split(" ")
     //kafka的配置参数
     val kafkaParams = Map[String, Object](
-      "bootstrap.servers" -> "linux01:9092,linux02:9092,linux03:9092",
+      "bootstrap.servers" -> "hadoop201:9092,hadoop202:9092,hadoop203:9092",
       "key.deserializer" -> classOf[StringDeserializer],
       "value.deserializer" -> classOf[StringDeserializer],
       "group.id" -> "test07",
